@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>test ajax</title>
+    <script src="./jquery.min.js">
+    </script>
+
+</head>
+
+<body>
+
+
+    <!-- <form action="http://127.0.0.1:8080/ajaxaaa" method="post">
+        <input type="text" name="name"  value="aa" />
+        <input type="password" name="passw" value="" />
+        <input type="submit" value=""/>
+    </form> -->
+
+
+    <input type="text" id="name" value="111">
+    <button onclick="getDate()">获取外部内容</button>
+    <div id="result">
+
+    </div>
+
+    <script>
+        function getDate() {
+            var name_val = $('#name').val()
+            $('#result').text('')
+            $.ajax({
+                url: 'http://127.0.0.1:8080/ajaxaaa',
+                type: 'POST',
+                data: { name: name_val },
+                datatype: 'application/json',
+                success: function (data) {
+                    $('#result').text(JSON.stringify(data))
+                },
+                error: function () { alert('Failed!'); },
+            });
+        }
+    </script>
+
+</body>
+
+</html>
