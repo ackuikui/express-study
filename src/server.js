@@ -1,4 +1,5 @@
 var http = require("http");
+var https = require('https')
 var url = require("url");
 var querystring = require('querystring');
 var util = require('util');
@@ -6,13 +7,24 @@ var util = require('util');
 const router = require("./router");
 
 
-http.createServer(function (request, response) {
+const path = require('path')
+const fs = require('fs')
+
+
+
+const options = {
+    key: fs.readFileSync(path.join(__dirname, './cert/server.key'), 'utf8'),
+    cert: fs.readFileSync(path.join(__dirname, './cert/server.crt'), 'utf8')
+}
+
+
+https.createServer(options, function (request, response) {
     var pathname = url.parse(request.url).pathname; // path
 
-    var reqGetData = url.parse(request.url,true).query // get
-    
+    var reqGetData = url.parse(request.url, true).query // get
+
     var reqPostData = "";
-    request.on("data",function(data){
+    request.on("data", function (data) {
         reqPostData += data;
     });
 
@@ -24,11 +36,11 @@ http.createServer(function (request, response) {
     request.on('end', function () {
         reqPostData = querystring.parse(reqPostData);
         var respJson = router.route(pathname, reqPostData)
-        
+
         response.end(JSON.stringify(respJson));
     });
 
-}).listen(8080);
+}).listen(443);
 
 
 console.log('Server running at http://127.0.0.1:8080/');
