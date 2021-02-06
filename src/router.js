@@ -2,6 +2,7 @@ const {aaaa} = require("./api/ajaxaaa");
 
 
 
+
 function route(pathname, req) {
     console.log(pathname)
     switch(pathname) {
@@ -11,3 +12,6 @@ function route(pathname, req) {
 }
 
 exports.route = route;
+
+// to change to
+// https://www.jianshu.com/p/cb89d9ac635e
